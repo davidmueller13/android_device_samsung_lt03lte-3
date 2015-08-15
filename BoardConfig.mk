@@ -66,7 +66,7 @@ BOARD_HAVE_BLUETOOTH_BCM := ?
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := ?
+BOARD_KERNEL_PAGESIZE := 2048
 TARGET_PREBUILT_KERNEL := devicemanufacturer/devicename/kernel
 
 # Partitioning setup (fix this up by examining /proc/mtd on a running device)

@@ -1,4 +1,4 @@
-# Copyright (C) 2015 The CyanogenMod Project
+# Copyright (C) 2014 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,82 +15,56 @@
 # inherit from common msm8974
 -include device/samsung/msm8974-common/BoardConfigCommon.mk
 
-# inherit from the proprietary version
--include vendor/samsung/lt03lte/BoardConfigVendor.mk
+LOCAL_PATH := device/samsung/lt03lte
 
-(get most of this from build.prop)
-# Board General info
+TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+
+# Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
-TARGET_BOARD_PLATFORM := platform
-BOARD_HAS_NO_SELECT_BUTTON := true
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_ARCH_VARIANT := armv7-a-neon
-ARCH_ARM_HAVE_TLS_REGISTER := true
-BOARD_USES_QCOM_HARDWARE := true
-BOARD_USES_QCOM_GPS := true
-BOARD_USES_QCOM_LIBS := true
-BOARD_USES_QCOM_LIBRPC := true
-BOARD_USE_QCOM_PMEM := true
 
-(i cant figure this one out, please pm me if you find it out)
-# ril
+# Kernel
+BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 androidboot.selinux=permissive androidboot.bootdevice=msm_sdcc.1
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_SEPARATED_DT := true
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
+TARGET_KERNEL_CONFIG := msm8974_sec_defconfig
+TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
+TARGET_KERNEL_VARIANT_CONFIG := msm8974_sec_lt03eur_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
 
-# audio
-HAVE_HTC_AUDIO_DRIVER := ?
-BOARD_USES_GENERIC_AUDIO := ?
-TARGET_PROVIDES_LIBAUDIO := ?
-
-(get this information from  system/etc and /modules)
-# wifi
-BOARD_WPA_SUPPLICANT_DRIVER := ?
-WPA_SUPPLICANT_VERSION := ?
-BOARD_WLAN_DEVICE := ?
-WIFI_DRIVER_FW_PATH_STA := "/system/etc/wifi/?"
-WIFI_DRIVER_FW_PATH_AP := "/system/etc/wifi/?"
-WIFI_DRIVER_MODULE_NAME := "?"
-WIFI_DRIVER_MODULE_PATH := "/lib/modules/?"
-WIFI_DRIVER_MODULE_ARG := "firmware_path=/system/etc/wifi/? nvram_path=/system/etc/wifi/?"
-
-(get this from system/etc)
-# video
-BOARD_EGL_CFG := device/manufacturer/devicename/files/?
-TARGET_BOARD_PLATFORM_GPU := ?
+# Audio
+BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
+AUDIO_FEATURE_DISABLED_ANC_HEADSET := true
+AUDIO_FEATURE_DISABLED_FM := true
+AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS := true
+AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := true
+AUDIO_FEATURE_ENABLED_EXTN_FORMATS := true
+AUDIO_FEATURE_ENABLED_EXTN_POST_PROC := true
+AUDIO_FEATURE_ENABLED_FLUENCE := true
+AUDIO_FEATURE_ENABLED_HFP := true
+AUDIO_FEATURE_ENABLED_PCM_OFFLOAD := true
+AUDIO_FEATURE_ENABLED_FLAC_OFFLOAD := true
+AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
+AUDIO_FEATURE_ENABLED_USBAUDIO := true
+AUDIO_FEATURE_ENABLED_COMPRESS_CAPTURE := true
+AUDIO_FEATURE_ENABLED_INCALL_MUSIC := true
 
 # Bluetooth
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_BCM := ?
+BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/vnd_lt03lte.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
+BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
+BOARD_HAVE_BLUETOOTH_BCM := true
 
-(get this from your boot.img unpacking)
-# kernel
-BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := 2048
-TARGET_PREBUILT_KERNEL := devicemanufacturer/devicename/kernel
+# GPS
+TARGET_NO_RPC := true
 
-# Partitioning setup (fix this up by examining /proc/mtd on a running device)
-BOARD_BOOTIMAGE_PARTITION_SIZE := ?
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := ?
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := ?
-BOARD_USERDATAIMAGE_PARTITION_SIZE := ?
-BOARD_FLASH_BLOCK_SIZE := ?
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
 
-## PARTITION LAYOUT/INFO ##
-BOARD_DATA_DEVICE := /dev/block/mtdblock?
-BOARD_DATA_FILESYSTEM := ?
-BOARD_DATA_FILESYSTEM_OPTIONS := rw,nosuid,nodev,noatime,nodiratime 0 0 (the permissions, replace these with your devices)
-BOARD_SYSTEM_DEVICE := /dev/block/mtdblock?
-BOARD_SYSTEM_FILESYSTEM := ?
-BOARD_SYSTEM_FILESYSTEM_OPTIONS := rw,noatime,nodiratime 0 0 (the permissions, replace these with your devices)
-BOARD_CACHE_DEVICE := /dev/block/mtdblock?
-BOARD_CACHE_FILESYSTEM := ?
-BOARD_CACHE_FILESYSTEM_OPTION := rw,nosuid,nodev,noatime,nodiratime 0 0 (the permissions, replace these with your devices)
-BOARD_MISC_DEVICE := /dev/block/mtdblock?
-BOARD_BOOT_DEVICE := /dev/block/mtdblock?
-BOARD_RECOVERY_DEVICE := /dev/block/mtdblock?
-TARGET_USERIMAGES_USE_EXT4 := ?
-BOARD_SDCARD_DEVICE_PRIMARY := /dev/block/vold/?
+# NFC
+#BOARD_NFC_HAL_SUFFIX := msm8974
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -101,7 +75,48 @@ BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_USES_MMCUTILS := true
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
 
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := $(LOCAL_PATH)
 
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+# SELinux
+-include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_UNION += macloader.te
+BOARD_SEPOLICY_DIRS += device/samsung/lt03lte/sepolicy
 
-TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT :=
+# Wifi
+BOARD_HAVE_SAMSUNG_WIFI := true
+BOARD_WLAN_DEVICE := bcmdhd
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+WIFI_BAND := 802_11_ABG
+WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
+WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
+WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
+WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wifi/bcmdhd_sta.bin"
+WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
+
+TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
+
+# Init
+TARGET_INIT_VENDOR_LIB := libinit_msm
+TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_lt03lte.c
+TARGET_UNIFIED_DEVICE := true
+
+# Partitions
+BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 13631488
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 12828261888
+BOARD_FLASH_BLOCK_SIZE := 131072
+TARGET_USERIMAGES_USE_EXT4 := true
+
+# Ril
+BOARD_RIL_CLASS := ../../../device/samsung/lt03lte/ril
+
+# Bootanimation
+TARGET_BOOTANIMATION_SIZE := 2560x1440
+
+

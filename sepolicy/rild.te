@@ -1,0 +1,4 @@
+allow rild proc_net:file { write };
+allow rild sysfs_sec:file { getattr open read write };
+allow rild ril_efs_file:file { read getattr open };
+allow rild self:capability dac_override;

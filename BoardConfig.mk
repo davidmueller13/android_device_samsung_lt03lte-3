@@ -119,4 +119,6 @@ BOARD_RIL_CLASS := ../../../device/samsung/lt03lte/ril
 # Bootanimation
 TARGET_BOOTANIMATION_SIZE := 2560x1440
 
-
+# Camera
+TARGET_PROVIDES_CAMERA_HAL := true
+USE_DEVICE_SPECIFIC_CAMERA := true

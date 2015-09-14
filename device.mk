@@ -165,6 +165,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.nfc.port=I2C
+    
+# camera
+PRODUCT_PACKAGES += \
+    camera.msm8974 \
+    libxml2
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
